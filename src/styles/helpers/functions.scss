@@ -1,0 +1,29 @@
+@use 'constants' as *;
+@use 'scss:math';
+
+@function fluid($max:100, $min:100, $isEndOfLaptop: false) {
+    $maxViewportsWidth: $container-desktop-width; // значение ширины экрана на desktop версии
+    $minViewportsWidth: 390;  // значение ширины экрана на мобильной версии
+
+    @if ($isEndOfLaptop){
+        $minViewportsWidth: $container-laptop-width;
+    }
+
+    $maxSize: math.div($max, 16);
+    $minSize: math.div($min, 16) ;
+    $maxWidth: math.div($maxViewportsWidth, 16);
+    $minWidth: math.div($minViewportsWidth, 16);
+
+    $slope: math.div(($maxSize - $minSize), ($maxWidth - $minWidth));
+    $yAxisIntersections: -$minWidth * $slope + $minSize;
+
+    @return clamp(
+        #{$minSize 8 1rem},
+        #{$yAxisIntersections * 1rem} + #{$slope * 100vw},
+        #{$maxSize * 1rem}
+    );
+}
+
+@function fluid-to-laptop($max:100, $min:100) {
+    @return fluid($max, $min, true)
+}
