@@ -1,5 +1,5 @@
 @use 'constants' as *;
-@use 'scss:math';
+@use 'sass:math';
 
 @function fluid($max:100, $min:100, $isEndOfLaptop: false) {
     $maxViewportsWidth: $container-desktop-width; // значение ширины экрана на desktop версии
@@ -18,7 +18,7 @@
     $yAxisIntersections: -$minWidth * $slope + $minSize;
 
     @return clamp(
-        #{$minSize 8 1rem},
+        #{$minSize * 1rem},
         #{$yAxisIntersections * 1rem} + #{$slope * 100vw},
         #{$maxSize * 1rem}
     );
